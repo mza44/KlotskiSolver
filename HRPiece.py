@@ -1,4 +1,4 @@
-""" HRPiece: Sliding piece of the HuarongDao (Klotski) game
+""" HRPiece: Sliding piece of the Klotski game
 
 class HRPiece:
 | - Constructor:
