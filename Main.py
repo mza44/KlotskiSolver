@@ -15,7 +15,7 @@ class HRBoard:
     def __init__(self, layout = None):
         """
 
-        :rtype : None
+        :layout: name of the file specifying the layout of the board
         """
         self.clear_board()
         # self.board = [[EMPTY_BLOCK for i in range(BOARD_WID)] for j in range(BOARD_HGT)]
