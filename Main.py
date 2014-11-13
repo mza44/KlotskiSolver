@@ -8,11 +8,6 @@ __copyright__ = "Copyright 2014, Stellari Studio"
 
 from HRConsts import *
 from HRPiece import HRPiece
-DIRS = LEFT, DOWN, RIGHT, UP = ((-1, 0), (0, 1), (1, 0), (0, -1))
-
-DIR_NAMES = {UP: 'UP', RIGHT: 'RIGHT', DOWN: 'DOWN', LEFT: 'LEFT'}
-
-OPPO_DIRS = {UP:DOWN, DOWN:UP, LEFT:RIGHT, RIGHT:LEFT}
 
 class InvalidMove(Exception): pass
 
@@ -23,7 +18,7 @@ class HRMove:
         self.tried = False
         self.applied = False
     def __repr__(self):
-        return 'Move Piece #{0} {1}'.format(self.piece.id, DIR_NAMES[self.dir])
+        return '#{0} {1}'.format(self.piece.id, DIR_NAMES[self.dir])
 
     def apply(self):
         if not self.tried:
