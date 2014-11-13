@@ -1,0 +1,84 @@
+--------------
+Klotski Solver
+--------------
+
+*--------------------------------------------------------------*
+A command-line solver for the Klotski game written in Python 3.4
+*--------------------------------------------------------------*
+
+Copyright 2014, Mingjing Zhang
+Simon Fraser University
+
++------------+
+How it works:
++------------+
+Run Main.py.
+It reads the board specified in 'DefaultLayout.txt',
+then output the steps in the format of:
+
+ #{Index of Piece} {Direction}: {(Current Board Layout)}
+
+ e.g.
+ ...
+ #7 UP: (3, 19, 10, 9, 0, 12, 2, 13, 15, 7)
+ #8 DOWN: ...
+ ...
+
++--------------------------------+
+How to write your own layout file:
++--------------------------------+
+The layout file contains the coordinate of each block. It is organized as follows:
+-- BEGINNING OF FILE --
+TypeLetter
+Coordinate
+Coordinate
+...
+TypeLetter
+Coordinate
+Coordinate
+...
+
+...
+-- END OF FILE --
+
+'TypeLetter' is a single capital letter that specifies which type of piece the next few coordinates define,
+until another TypeLetter is encountered. It can be either B(ig), H(orizontal), V(ertical) or S(mall).
+
+'Coordinate' is a two number group in the order of 'X Y' (0 based). It represents the coordinate of the
+LEFT-TOP block of a piece.
+
+For example, the following file:
+
+B
+1 0
+H
+1 2
+2 3
+
+defines a 2x2 piece whose LEFT-TOP block is at (1,0),
+and two 1x2 pieces whose LEFT-TOP blocks are at(1,2), and (2, 3) respectively.
+
+So the resulting board would look (E = empty block):
+
+E 0 0 E
+E 0 0 E
+E 1 1 E
+E E 1 1
+E E E E
+
++--+
+FAQ:
++--+
+Why the 'HR' prefix for all class files?
+
+  HR is the acronym of the Chinese name of Klotski -- Hua-Rong Dao (The Path of Hua-Rong).
+  In the Chinese version, the game reenacts a classical story where the warlord, Cao Cao,
+  escaped to the path of Hua-Rong after defeated in the Battle of Red Cliff. There he was
+  ambushed by the enemy general Guan Yu. Each piece is assigned with a name of a historical
+  figure, with the 2x2 piece being Cao Cao, and the horizontal one Guan Yu.
+
+
+
+
+
+
