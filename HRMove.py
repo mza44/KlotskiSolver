@@ -8,24 +8,31 @@ class HRMove:
         self.tried = False
         self.applied = False
     def __repr__(self):
-        return '#{0} {1}'.format(self.piece.id, DIR_NAMES[self.dir])
+        ret_str = '#{0}'.format(self.piece.id)
+        for d in self.dir:
+            ret_str += ' {0}'.format(DIR_NAMES[d])
+        return ret_str
+        #'#{0} {1}'.format(self.piece.id, DIR_NAMES[self.dir])
 
     def apply(self):
         if not self.tried:
-            self.piece.x += self.dir[0]
-            self.piece.y += self.dir[1]
+            for d in self.dir:
+                self.piece.x += d[0]
+                self.piece.y += d[1]
             self.tried = True
         self.applied = True
 
     def attempt(self):
         if self.tried and self.applied: raise InvalidMove
-        self.piece.x += self.dir[0]
-        self.piece.y += self.dir[1]
+        for d in self.dir:
+            self.piece.x += d[0]
+            self.piece.y += d[1]
         self.tried = True
 
     def cancel(self):
         if self.applied or not self.tried: raise InvalidMove
 
-        self.piece.x -= self.dir[0]
-        self.piece.y -= self.dir[1]
+        for d in reversed(self.dir):
+            self.piece.x -= d[0]
+            self.piece.y -= d[1]
         self.tried = False
