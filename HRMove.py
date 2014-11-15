@@ -4,7 +4,10 @@ from HRException import InvalidMove
 class HRMove:
     def __init__(self, piece, dir):
         self.piece = piece
-        self.dir = dir
+        if isinstance(dir[0], list):
+            self.dir = dir
+        else:
+            self.dir = [dir]
         self.tried = False
         self.applied = False
     def __repr__(self):

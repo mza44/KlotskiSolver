@@ -117,7 +117,7 @@ class HRBoard:
         for irow in range(piece.y + dir[1], piece.y + piece_size[1] + dir[1]):
             for icol in range(piece.x + dir[0], piece.x + piece_size[0] + dir[0]):
                 try:
-                    if irow < 0 or icol < 0: # Force neg index
+                    if irow < 0 or icol < 0: # Neg indices are invalid here
                         raise IndexError
                     if self.board[irow][icol] not in [piece.id, EMPTY_BLOCK]:
                         return False
@@ -147,7 +147,7 @@ class HRBoard:
     def show_board(self):
         for row in self.board:
             for elem in row:
-                print((' ' if elem == -1 else elem), end = ' ')
+                print((' ' if elem == EMPTY_BLOCK else elem), end = ' ')
             print()
     def show_all_pieces(self):
         for p in self.all_pieces:
