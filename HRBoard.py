@@ -164,7 +164,7 @@ class HRBoard:
 
     def find_all_moves(self):
         all_moves = []
-        moveable_pieces = []
+        moveable_pieces = [];
         piece_trace = defaultdict(list)
         for this_piece in self.all_pieces:
             self.find_one_move(this_piece, all_moves, (0, 0), set(), last_move=None)
