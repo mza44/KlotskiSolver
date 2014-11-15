@@ -19,6 +19,13 @@ class HRPiece:
         self.id = id
         self.x = x
         self.y = y
+
+    def get_xy(self):
+        return (self.x, self.y)
+
+    def if_move_by(self, disp):
+        return (self.x + disp[0], self.y + disp[1])
+
     def get_ind(self):
         """Get the one-number index representation of the position (0~19)
 

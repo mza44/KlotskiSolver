@@ -4,7 +4,7 @@ from HRException import InvalidMove
 class HRMove:
     def __init__(self, piece, dir):
         self.piece = piece
-        if isinstance(dir[0], list):
+        if isinstance(dir[0], tuple):
             self.dir = dir
         else:
             self.dir = [dir]
@@ -39,3 +39,8 @@ class HRMove:
             self.piece.x -= d[0]
             self.piece.y -= d[1]
         self.tried = False
+
+    def append(self, new_dir):
+        if self.applied or self.tried: raise InvalidMove
+
+        self.dir.append(new_dir)

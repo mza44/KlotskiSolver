@@ -2,6 +2,8 @@ from HRConsts import PIECE_SIZE, INITIAL_TO_PIECE, BOARD_WID, BOARD_HGT, EMPTY_B
 from HRPiece import HRPiece
 from HRMove import HRMove
 from HRException import InvalidMove
+from collections import deque, defaultdict
+import copy
 class HRBoard:
     def __init__(self, layout = None):
         """
@@ -136,12 +138,47 @@ class HRBoard:
         #move.piece.y += move.dir[1]
         self.put_piece_to_board(move.piece,clr = False)
 
+    def find_one_move(self, this_piece:HRPiece, all_moves, accum_disp, traversed_pos, last_move = None):
+        """
+
+        :param this_piece:
+        :param all_moves:
+        :param traversed_pos:
+        :param accum_disp: Accumulative displacement to this point
+        :param last_move:
+        :return:
+        """
+        traversed_pos.add(this_piece.if_move_by(accum_disp))
+        for d in DIRS:
+            real_d = (d[0]+accum_disp[0], d[1]+accum_disp[1])   # Actual displacement
+            if (self.is_valid_move(this_piece, real_d)       # If this is a valid move
+                and this_piece.if_move_by(real_d) not in traversed_pos): # and if the dest has not been visited
+                if last_move is None:
+                    this_move = HRMove(this_piece, d)
+                else:
+                    this_move = copy.copy(last_move)
+                    this_move.append(d)
+                all_moves.append(this_move)
+                self.find_one_move(this_piece, all_moves, real_d,   # Find the new move based upon this one
+                                   traversed_pos, this_move)
+
     def find_all_moves(self):
         all_moves = []
+        moveable_pieces = []
+        piece_trace = defaultdict(list)
         for this_piece in self.all_pieces:
-            for dir in DIRS:
-                if self.is_valid_move(this_piece, dir):
-                    all_moves.append(HRMove(this_piece, dir))
+            self.find_one_move(this_piece, all_moves, (0, 0), set(), last_move=None)
+            #for d in DIRS:
+            #    if self.is_valid_move(this_piece, d):
+            #        all_moves.append(HRMove(this_piece, d))
+                    #moveable_pieces.append(this_piece)
+            #        piece_trace[this_piece] = []
+        #for p, tr in piece_trace.items():
+        #    piece_trace[p].append(piece_trace[p].get_ind())
+        #q = deque(all_moves)
+        #for mvs in all_moves:
+
+        # Now let's find other possible moves
         return all_moves
 
     def show_board(self):

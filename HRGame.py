@@ -33,7 +33,7 @@ class HRGame:
                 break
 
             node_count += 1
-            if node_count % 100 == 0:
+            if node_count % 1000 == 0:
                 print('\rProcessing Node: {0}'.format(node_count))
             all_moves = self.board.find_all_moves()
             for m in all_moves:

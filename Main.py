@@ -83,10 +83,10 @@ if __name__ == "__main__":
             if last.last_move.piece.id == i.last_move.piece.id:
                 print(' , {0}'.format(i), end= '')
             else:
-                print('\n{0}'.format(i), end='')
+                print('\n{0}:{1}'.format(count, i), end='')
                 count += 1
         else:
-            print('\n{0}'.format(i), end='')
+            print('\n{0}:{1}'.format(count, i), end='')
             count += 1
         last = i
     print("\n\nActual Number of Steps: {0}".format(count))
