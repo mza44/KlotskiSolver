@@ -1,1 +1,2 @@
-class InvalidMove(Exception): pass
+class InvalidMove(Exception):
+    pass
