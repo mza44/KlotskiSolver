@@ -129,7 +129,8 @@ class HRBoard:
                 try:
                     if irow < 0 or icol < 0:  # Neg indices are invalid here
                         raise IndexError
-                    if self.board[irow][icol] not in [piece.id, EMPTY_BLOCK]:
+                    if (self.board[irow][icol] != piece.id and
+                        self.board[irow][icol] != EMPTY_BLOCK):
                         return False
                 except IndexError:  # If piece moves out of board
                     return False
