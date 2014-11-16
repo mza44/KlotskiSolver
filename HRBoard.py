@@ -89,6 +89,24 @@ class HRBoard:
         return tuple(p.get_ind() for p in self.all_pieces)
 
     def unordered_hash(self, hash_code):
+        start = 0
+        unordered_list = []
+#        if hash_code[0] >= 10:
+        temp_hash = list(hash_code[:])
+        temp_mirror_hash = temp_hash[:]
+        for i_type, n_p in enumerate(self.n_pieces_by_type):
+            end = start + n_p
+            type_list = temp_hash[start:end]
+            temp_hash[start:end] = sorted(type_list)
+            if PIECE_SIZE[i_type][0] == 2:  # It is a 'wide' block; needs special conversion
+                temp_mirror_hash[start:end] = sorted([el + 10 if el < 5 else
+                                                      (el if el < 10 else el - 10)  for el in type_list])
+            else:
+                temp_mirror_hash[start:end] = sorted([19 - el for el in type_list])
+            #unordered_list.extend(sorted(type_list))
+            start = end
+        return tuple(temp_hash), tuple(temp_mirror_hash)
+    def unordered_hash_old(self, hash_code):
         """ Return the unordered version of the hash
         :param hash_code:
         :return:

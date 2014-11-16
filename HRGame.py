@@ -40,8 +40,8 @@ class HRGame:
                 # last_node | last_move
                 self.board.try_move(m)
                 next_hash = self.board.hash_board()
-                uo_hash = self.board.unordered_hash(next_hash)
-                if uo_hash in self.all_hashes: # If this node has been visited
+                uo_hash, uo_mirror_hash = self.board.unordered_hash(next_hash)
+                if uo_hash in self.all_hashes or uo_mirror_hash in self.all_hashes: # If this node has been visited
                     self.board.cancel_move(m)  # Discard the move
                     continue
                 else:   # Otherwise this is an unvisited node
