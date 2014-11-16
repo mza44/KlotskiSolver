@@ -71,9 +71,9 @@ if __name__ == "__main__":
     #print(game.all_hashes)
 
     #print("total = {0}".format(len(game.all_hashes)))
-    for el in game.all_hashes:
-        if el[0] == 6:
-            print(el)
+    #for el in game.all_hashes:
+    #    if el[0] == 6:
+    #        print(el)
 
     print("total solutions = {0}".format(len(game.solution)))
     last = None
