@@ -11,7 +11,7 @@ class HRPiece:
 |     set_ind(ind): Set the position through the single-number index
 """
 
-from HRConsts import BOARD_HGT, __DEBUG__
+from HRConsts import BOARD_HGT, __DEBUG__, XY2IND, IND2XY
 
 class HRPiece:
     def __init__(self, type, id, x, y):
@@ -32,13 +32,13 @@ class HRPiece:
         * The index is arranged in a zig-zag way. i.e. (0, 0), (0, 2) ... (0, 4) corresponds to
           0 ~4 respectively, but (1, 0), ... (1, 4) are 9, 8, 7, 6, 5, respectively.
         """
-
+        return XY2IND[self.y][self.x]
         # Count UP-DOWN for even columns (0 and 2), DOWN-UP for odd ones (1 and 3)
-        if self.x % 2 == 0:
-            ind = self.x * BOARD_HGT + self.y
-        else:
-            ind = self.x * BOARD_HGT + BOARD_HGT - 1 - self.y
-        return ind
+        #if self.x % 2 == 0:
+        #    ind = self.x * BOARD_HGT + self.y
+        #else:
+        #    ind = self.x * BOARD_HGT + BOARD_HGT - 1 - self.y
+        #return ind
 
     def set_ind(self, ind):
         """Set the position through the single-number index
@@ -46,10 +46,11 @@ class HRPiece:
         * The index is arranged in a zig-zag way. i.e. (0, 0), (0, 2) ... (0, 4) corresponds to
           0 ~4 respectively, but (1, 0), ... (1, 4) are 9, 8, 7, 6, 5, respectively.
         """
-        self.x = ind // BOARD_HGT
+        self.x, self.y = IND2XY[ind]
+        #self.x = ind // BOARD_HGT
 
         # Count UP-DOWN for even columns (0 and 2), DOWN-UP for odd ones (1 and 3)
-        self.y = ((ind % BOARD_HGT) if self.x % 2 == 0 else (BOARD_HGT - 1 - ind % BOARD_HGT))
+        #self.y = ((ind % BOARD_HGT) if self.x % 2 == 0 else (BOARD_HGT - 1 - ind % BOARD_HGT))
 
     def __repr__(self):
         return '#{id}: ({x}, {y})'.format(**self.__dict__)
