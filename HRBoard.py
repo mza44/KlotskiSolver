@@ -156,7 +156,7 @@ class HRBoard:
                 if last_move is None:
                     this_move = HRMove(this_piece, d)
                 else:
-                    this_move = copy.copy(last_move)
+                    this_move = HRMove(this_piece,last_move.dir)
                     this_move.append(d)
                 all_moves.append(this_move)
                 self.find_one_move(this_piece, all_moves, real_d,   # Find the new move based upon this one

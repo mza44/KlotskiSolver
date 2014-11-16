@@ -5,9 +5,9 @@ class HRMove:
     def __init__(self, piece, dir):
         self.piece = piece
         if isinstance(dir[0], tuple):
-            self.dir = dir
+            self.dir = dir[:]
         else:
-            self.dir = [dir]
+            self.dir = [dir[:]]
         self.tried = False
         self.applied = False
     def __repr__(self):
