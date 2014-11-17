@@ -75,10 +75,12 @@ if __name__ == "__main__":
     #    if el[0] == 6:
     #        print(el)
 
-    print("total solutions = {0}".format(len(game.solution)))
+    #print("total solutions = {0}".format(len(game.solution)))
     last = None
     count = 0
-    for i in list(game.solution):
+    game.solution.print()
+    game.solution.print()
+    """for i in list(game.solution):
         if last and last.last_move:
             if last.last_move.piece.id == i.last_move.piece.id:
                 print(' , {0}'.format(i), end= '')
@@ -89,6 +91,7 @@ if __name__ == "__main__":
             print('\n{0}:{1}'.format(count, i), end='')
             count += 1
         last = i
+        """
     print("\n\nActual Number of Steps: {0}".format(count))
 
 

@@ -11,4 +11,4 @@ class HRNode:
     def __repr__(self):
         return "{0}: {1}".format(self.last_move, self.hash_code)
     def __str__(self):
-        return self.__repr__()
+        return "{0}".format(self.last_move)

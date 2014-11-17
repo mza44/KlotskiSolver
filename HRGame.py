@@ -1,17 +1,21 @@
 from HRBoard import HRBoard
 from HRNode import HRNode
+from HRSolution import HRSolution
 from collections import deque
 
 class HRGame:
     def __init__(self, fname):
         self.board = HRBoard(fname)
-        self.solution = deque()         # All moves
+        self.solution = HRSolution() #deque()         # All moves
         self.all_hashes = set()
 
     def if_win(self):
         return self.board.all_pieces[0].get_ind == 6
 
     def solve(self):
+        """ Solve the game
+        :return:
+        """
         self.solution.clear()
         if self.if_win(): return
         q = deque() #[self.hash_board()];    # Create a queue that
@@ -25,12 +29,14 @@ class HRGame:
             self.board.dehash_board(this_node.hash_code) # Restore the board
             if this_node.hash_code[0] == 6:# 6: #self.if_win():
                 print('Solution found!')
-                n = this_node
-                #p = this_node.parent
-                while n:
-                    self.solution.appendleft(n)
-                    n = n.parent
+                self.solution.populate(this_node)
                 break
+                #n = this_node
+                #p = this_node.parent
+                #while n:
+                #    self.solution.appendleft(n)
+                #    n = n.parent
+                #break
 
             node_count += 1
             if node_count % 1000 == 0:
