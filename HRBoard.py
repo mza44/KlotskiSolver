@@ -1,8 +1,9 @@
+from __future__ import print_function       # Provide Forward Compatibility for Python 2.6/2.7
+
 from HRConsts import PIECE_SIZE, INITIAL_TO_PIECE, BOARD_WID, BOARD_HGT, EMPTY_BLOCK, N_TYPE, DIRS
 from HRPiece import HRPiece
 from HRMove import HRMove
 from HRException import InvalidMove
-
 
 class HRBoard:
     def __init__(self, layout=None):
@@ -74,10 +75,10 @@ class HRBoard:
         for p in self.all_pieces:
             self.put_piece_to_board(p)
 
-    def try_move(self, tentative_move: HRMove):
+    def try_move(self, tentative_move):
         tentative_move.attempt()   # Try this move
 
-    def cancel_move(self, tentative_move: HRMove):
+    def cancel_move(self, tentative_move):
         tentative_move.cancel()
 
     def hash_board(self):  # Old style: hash_board(self, tentative_move=None):
@@ -154,7 +155,7 @@ class HRBoard:
                     return False
         return True
 
-    def apply_move(self, move: HRMove):
+    def apply_move(self, move):
         try:
             move.cancel()       #
         except InvalidMove:
@@ -165,7 +166,7 @@ class HRBoard:
         #move.piece.y += move.dir[1]
         self.put_piece_to_board(move.piece, clr=False)
 
-    def find_one_move(self, this_piece: HRPiece, all_moves, accum_disp, traversed_pos, last_move=None):
+    def find_one_move(self, this_piece, all_moves, accum_disp, traversed_pos, last_move=None):
         """
 
         :param this_piece:
@@ -196,11 +197,16 @@ class HRBoard:
 
         return all_moves
 
+    def get_board_row(self, irow):
+        res_list = [' ' if elem == EMPTY_BLOCK else str(elem) for elem in self.board[irow]]
+        return ' '.join(res_list)
+
     def show_board(self):
-        for row in self.board:
-            for elem in row:
-                print((' ' if elem == EMPTY_BLOCK else elem), end=' ')
-            print()
+        for irow, row in enumerate(self.board):
+            print(self.get_board_row(irow))
+            #for elem in row:
+            #    print((' ' if elem == EMPTY_BLOCK else elem), end=' ')
+            #print()
 
     def show_all_pieces(self):
         for p in self.all_pieces:

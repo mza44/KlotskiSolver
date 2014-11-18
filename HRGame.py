@@ -1,3 +1,5 @@
+from __future__ import print_function  # Forward compatibility for Python 2.6/2.7
+
 from HRBoard import HRBoard
 from HRNode import HRNode
 from HRSolution import HRSolution
@@ -31,16 +33,10 @@ class HRGame:
                 print('Solution found!')
                 self.solution.populate(this_node)
                 break
-                #n = this_node
-                #p = this_node.parent
-                #while n:
-                #    self.solution.appendleft(n)
-                #    n = n.parent
-                #break
 
             node_count += 1
             if node_count % 1000 == 0:
-                print('\rProcessing Node: {0}'.format(node_count))
+                print('\rProcessing Node: {0}'.format(node_count), end='')
             all_moves = self.board.find_all_moves()
             for m in all_moves:
                 # last_node | last_move
@@ -55,5 +51,4 @@ class HRGame:
                     self.board.cancel_move(m)
                     q.append(HRNode(m, next_hash, this_node)) # Add this node to the queue
                     self.all_hashes.add(uo_hash)
-        #print(this_node)
         return
