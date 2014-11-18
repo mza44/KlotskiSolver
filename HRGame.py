@@ -33,8 +33,8 @@ class HRGame:
             this_node = q.popleft()
             self.board.dehash_board(this_node.hash_code) # Restore the board
             node_count += 1
-            if node_count % 40 == 0:
-                print('\rSolving (Processing Node: {0}) {1}'.format(node_count, '.'* (node_count / 40%5)), end='')
+            if node_count % 200 == 0:
+                print('\rSolving (Processing Node: {0}) {1:6}'.format(node_count, '.'* (int(node_count / 200)%5)), end='')
 
             if this_node.hash_code[0] == 6:# 6: #self.if_win():
                 elapsed_time = time.clock() - start_time
