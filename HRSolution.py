@@ -18,9 +18,7 @@ class HRSolution:
         self.init_layout = self.steps.popleft().hash_code
         #self.init_board.dehash_board(self.init_layout)
         return self.init_layout
-    def output(self,  results_per_line = 6, if_graphical=False, dir_shorthand=True):
-        print(self.init_layout)
-
+    def output(self,  results_per_line = 6, if_graphical=False, dir_shorthand=False):
         print("\nSolution Report:")
         print("="*40)
         print("Initial Layout:")
@@ -53,5 +51,5 @@ class HRSolution:
         print("-"*40)
 
         print("Total steps: {0}".format(n_steps))
-        print("{0:=^40}".format(" END OF REPORT "));   # -"*15 + "END OF REPORT" + "-"*15)
+        print("{0:=^40}".format(" END OF REPORT "))   # -"*15 + "END OF REPORT" + "-"*15)
         #print("{0}".format(self.init_layout))

@@ -4,8 +4,9 @@ from HRConsts import INITIAL_TO_PIECE, N_TYPE
 from HRBoard import HRBoard
 from HRNode import HRNode
 from HRSolution import HRSolution
+from HRException import InvalidMove
 from collections import deque
-
+import time
 class HRGame:
     def __init__(self, fname):
         self.board = HRBoard(fname)
@@ -21,25 +22,28 @@ class HRGame:
         """
         self.solution.clear()
         if self.if_win(): return
-        q = deque() #[self.hash_board()];    # Create a queue that
+        q = deque()             # Create a queue for BFS
         self.all_hashes.clear()
         root = HRNode(None, self.board.hash_board(), None)
         q.append(root)         # Push the current board in
         self.all_hashes.add(self.board.unordered_hash(root.hash_code))
         node_count = 0
+        start_time = time.clock()
         while q:
             this_node = q.popleft()
             self.board.dehash_board(this_node.hash_code) # Restore the board
+            node_count += 1
+            if node_count % 40 == 0:
+                print('\rSolving (Processing Node: {0}) {1}'.format(node_count, '.'* (node_count / 40%5)), end='')
+
             if this_node.hash_code[0] == 6:# 6: #self.if_win():
-                print('\nSolution found!')
+                elapsed_time = time.clock() - start_time
+                print('\rSolution found in {0:.4} secs. {1} nodes checked'.format(elapsed_time, node_count))
                 # Populate the solution path
                 # AND restore the board using the last node on the path
                 self.board.dehash_board(self.solution.populate(this_node))
                 break
 
-            node_count += 1
-            if node_count % 40 == 0:
-                print('\rSolving (Processing Node: {0}) {1}'.format(node_count, '.'* (node_count / 40%5)), end='')
             all_moves = self.board.find_all_moves()
             for m in all_moves:
                 # last_node | last_move
