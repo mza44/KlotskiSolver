@@ -1,5 +1,6 @@
 from __future__ import print_function  # Forward compatibility for Python 2.6/2.7
 
+from HRConsts import INITIAL_TO_PIECE, N_TYPE
 from HRBoard import HRBoard
 from HRNode import HRNode
 from HRSolution import HRSolution
@@ -8,7 +9,7 @@ from collections import deque
 class HRGame:
     def __init__(self, fname):
         self.board = HRBoard(fname)
-        self.solution = HRSolution() #deque()         # All moves
+        self.solution = HRSolution(self.board) #deque()         # All moves
         self.all_hashes = set()
 
     def if_win(self):
@@ -30,13 +31,15 @@ class HRGame:
             this_node = q.popleft()
             self.board.dehash_board(this_node.hash_code) # Restore the board
             if this_node.hash_code[0] == 6:# 6: #self.if_win():
-                print('Solution found!')
-                self.solution.populate(this_node)
+                print('\nSolution found!')
+                # Populate the solution path
+                # AND restore the board using the last node on the path
+                self.board.dehash_board(self.solution.populate(this_node))
                 break
 
             node_count += 1
-            if node_count % 1000 == 0:
-                print('\rProcessing Node: {0}'.format(node_count), end='')
+            if node_count % 40 == 0:
+                print('\rSolving (Processing Node: {0}) {1}'.format(node_count, '.'* (node_count / 40%5)), end='')
             all_moves = self.board.find_all_moves()
             for m in all_moves:
                 # last_node | last_move
@@ -52,3 +55,54 @@ class HRGame:
                     q.append(HRNode(m, next_hash, this_node)) # Add this node to the queue
                     self.all_hashes.add(uo_hash)
         return
+
+if __name__ == "__main__":
+    kk = HRBoard()
+    kk.mylife = "abc"
+    print(kk.mylife)
+    print([[] for i in range(N_TYPE)])
+    print(INITIAL_TO_PIECE)
+    kk.read_board('DefaultLayout.txt')
+    kk.show_board()
+    #help(kk.put_piece_to_board)
+    all_mvs = kk.find_all_moves()
+
+    print(all_mvs)
+    kk.apply_move(all_mvs[0])
+    kk.show_board()
+    kk.show_all_pieces()
+
+    all_mvs = kk.find_all_moves()
+    print(all_mvs)
+    kk.apply_move(all_mvs[2])
+
+    kk.show_board()
+    kk.show_all_pieces()
+    print(kk.hash_board())
+    all_mvs = kk.find_all_moves()
+    print(all_mvs)
+    #kk.apply_move(all_mvs[0])
+    #kk.show_board()
+    kk.apply_move(all_mvs[2])
+
+    kk.show_board()
+    kk.show_all_pieces()
+    all_mvs = kk.find_all_moves()
+    print(kk.hash_board())
+    kk.try_move(all_mvs[0])
+    print(kk.hash_board())
+    kk.cancel_move(all_mvs[0])
+    print(kk.hash_board())
+    try:
+        kk.cancel_move(all_mvs[0])
+    except InvalidMove as err:
+        print("This move has been canceled already")
+    print(kk.hash_board())
+    print(kk.n_pieces_by_type)
+    print(kk.unordered_hash(kk.hash_board()))
+
+    print('Now we will try to restore initial status from a previous hash_code: ')
+    kk.dehash_board((9, 0, 19, 2, 17, 7, 6, 13, 4, 15))
+    kk.show_board()
+    print(kk.hash_board())
+    print(kk.unordered_hash(kk.hash_board()))

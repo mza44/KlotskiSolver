@@ -74,6 +74,9 @@ class HRBoard:
         self.n_pieces = sum(self.n_pieces_by_type)  #len(self.all_pieces)
         for p in self.all_pieces:
             self.put_piece_to_board(p)
+        print("Layout successfully read from file {0}:".format(fname))
+        self.show_board()
+        print()
 
     def try_move(self, tentative_move):
         tentative_move.attempt()   # Try this move

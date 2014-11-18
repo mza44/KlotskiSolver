@@ -3,10 +3,10 @@ from collections import deque
 from HRBoard import HRBoard
 
 class HRSolution:
-    def __init__(self):
+    def __init__(self, board):
         self.steps = deque()
         self.init_layout = []
-        self.init_board = HRBoard()
+        self.init_board = board
     def clear(self):
         self.steps.clear()
 
@@ -16,14 +16,19 @@ class HRSolution:
             self.steps.appendleft(n)
             n = n.parent
         self.init_layout = self.steps.popleft().hash_code
-        self.init_board.dehash_board(self.init_layout)
+        #self.init_board.dehash_board(self.init_layout)
+        return self.init_layout
     def output(self,  results_per_line = 6, if_graphical=False, dir_shorthand=True):
+        print(self.init_layout)
+
         print("\nSolution Report:")
         print("="*40)
         print("Initial Layout:")
+        print("-"*40)
         self.init_board.show_board()
         print()
         print("Solution:")
+        print("-"*40)
         n_steps = len(self.steps)
         res_line = []
         #if dir_shorthand:
@@ -45,7 +50,8 @@ class HRSolution:
                         print()
 
         print()
-        print()
+        print("-"*40)
 
         print("Total steps: {0}".format(n_steps))
+        print("{0:=^40}".format(" END OF REPORT "));   # -"*15 + "END OF REPORT" + "-"*15)
         #print("{0}".format(self.init_layout))
