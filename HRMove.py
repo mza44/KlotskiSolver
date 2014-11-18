@@ -15,6 +15,7 @@ class HRMove:
         for d in self.dir:
             ret_str += ' {0}'.format(DIR_NAMES[d])
         return ret_str
+
         #'#{0} {1}'.format(self.piece.id, DIR_NAMES[self.dir])
 
     def apply(self):

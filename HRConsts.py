@@ -19,7 +19,8 @@ DIRS = LEFT, DOWN, RIGHT, UP = ((-1, 0), (0, 1), (1, 0), (0, -1))
 
 # -- Mapping from direction vectors to string names
 DIR_NAMES = {UP: 'UP', RIGHT: 'RIGHT', DOWN: 'DOWN', LEFT: 'LEFT'}
-
+#DIR_NAMES = {UP: '^', RIGHT: '>', DOWN: 'v', LEFT: '<'}
+#DIR_NAMES = {UP: 'Up', RIGHT: 'Right', DOWN: 'Down', LEFT: 'Left'}
 OPPO_DIRS = {UP:DOWN, DOWN:UP, LEFT:RIGHT, RIGHT:LEFT}
 
 # XY to Ind
