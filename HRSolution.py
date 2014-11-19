@@ -1,5 +1,6 @@
 from __future__ import print_function
 from collections import deque
+from HRConsts import BOARD_OUTPUT_WID
 from HRBoard import HRBoard
 
 class HRSolution:
@@ -46,45 +47,53 @@ class HRSolution:
                 print(prompt_str + step_str + ' --> ')
 
     def _output_graphical(self, results_per_line, step_iter, step_wid = 2):
+        init_hash = self.init_board.hash_board()
         n_steps = len(self.steps)
         i_step = -1
         while True:
             line_start_i_step =  i_step + 1
             prompt_str = 'Step {0:{1}}'.format(line_start_i_step+1, step_wid)
             step_str_list = []
+            graphic_move_list = []
             for i in range(results_per_line):   # Read n steps
                 try:
                     i_step, this_step = next(step_iter)
                 except StopIteration:
                     break
+                step_str_list.append(this_step)     # DESCRIPTION OF THIS MOVE
                 self.init_board.dehash_board(this_step.hash_code)
-                step_str_list.append(self.init_board.get_board())     # append a board, e.g. ['1 0 0 2', '1 0 0 2', '3 5 5 4' ... ]
-            #print(step_str_list)
-            #print(list(zip(*step_str_list)))
+                graphic_move_list.append(self.init_board.get_board())     # append a board, e.g. ['1 0 0 2', '1 0 0 2', '3 5 5 4' ... ]
+
             step_str = []
-            for irow, row in enumerate(list(zip(*step_str_list))):
-                if irow != 2:
-                    step_str.append('       '.join(row))
-                else:
-                    step_str.append('  -->  '.join(row))
+            graphic_move_str = []
+            for st in step_str_list:
+                step_str.append('{0:<{1}}'.format(st, BOARD_OUTPUT_WID))
             #print(step_str)
+            step_str = ''.join(step_str)
+
+            for irow, row in enumerate(list(zip(*graphic_move_list))):
+                if irow != 2:
+                    graphic_move_str.append('        '.join(row))
+                else:
+                    graphic_move_str.append('  -->   '.join(row))
+
             if results_per_line > 1:     # If there should be more than one elem in each row
                 prompt_str += ' to {0:{1}}:\n  '.format(i_step+1, step_wid)
             else:
                 prompt_str += ':  '
 
             if i_step == n_steps - 1:   # If this happens to be the last step
-                print(prompt_str)
-                for i in step_str:
-                    print(i)
+                print(prompt_str + step_str)
+                for i in graphic_move_str:
+                    print('  ' + i)
                 break              # Then we are done
             else:
-                print(prompt_str)
-                for i in step_str:
-                    print(i)
+                print(prompt_str + step_str)
+                for i in graphic_move_str:
+                    print('  ' + i)
             print()
-
-    def output(self,  results_per_line = 4, if_graphical=False, dir_shorthand=False):
+            self.init_board.dehash_board(init_hash)
+    def output(self,  results_per_line = 5, if_graphical=False, dir_shorthand=False):
         print("\nSolution Report:")
         print("="*40)
         print("Initial Layout:")
@@ -99,6 +108,13 @@ class HRSolution:
 
         #else:
         #    to_str = s.__repr__
+
+        #
+        if if_graphical:
+            results_per_line = max(results_per_line, 5)
+        else:
+            results_per_line = max(results_per_line, 7)
+
         step_wid = 2 if n_steps < 100 else 3
         step_iter = enumerate(self.steps)
         i_step = -1
