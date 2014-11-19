@@ -204,6 +204,12 @@ class HRBoard:
         res_list = [' ' if elem == EMPTY_BLOCK else str(elem) for elem in self.board[irow]]
         return ' '.join(res_list)
 
+    def get_board(self):
+        retb = []
+        for irow, row in enumerate(self.board):
+            retb.append(self.get_board_row(irow))
+        return retb
+
     def show_board(self):
         for irow, row in enumerate(self.board):
             print(self.get_board_row(irow))
