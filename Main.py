@@ -14,5 +14,5 @@ from HRGame import HRGame
 if __name__ == "__main__":
     game = HRGame('DefaultLayout.txt')
     game.solve()
-    game.solution.output()
+    game.solution.output(if_graphical=True, results_per_line=5)
 

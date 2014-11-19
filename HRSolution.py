@@ -44,7 +44,7 @@ class HRSolution:
                 print(prompt_str + step_str)
                 break              # Then we are done
             else:
-                print(prompt_str + step_str + ' --> ')
+                print(prompt_str + step_str + (' --> ' if results_per_line != 1 else ''))
 
     def _output_graphical(self, results_per_line, step_iter, step_wid = 2):
         init_hash = self.init_board.hash_board()
@@ -77,6 +77,11 @@ class HRSolution:
                 else:
                     graphic_move_str.append('  -->   '.join(row))
 
+                    # Only add an '-->' at the end when there is still more steps
+                    # on the next line AND we display multiple steps per line
+                    if i_step != n_steps - 1 and results_per_line != 1:
+                        graphic_move_str[-1] += '  -->  '
+
             if results_per_line > 1:     # If there should be more than one elem in each row
                 prompt_str += ' to {0:{1}}:\n  '.format(i_step+1, step_wid)
             else:
@@ -93,6 +98,7 @@ class HRSolution:
                     print('  ' + i)
             print()
             self.init_board.dehash_board(init_hash)
+
     def output(self,  results_per_line = 5, if_graphical=False, dir_shorthand=False):
         print("\nSolution Report:")
         print("="*40)
@@ -103,23 +109,18 @@ class HRSolution:
         print("Solution:")
         print("-"*40)
         n_steps = len(self.steps)
-        res_line = []
-        #if dir_shorthand:
-
-        #else:
-        #    to_str = s.__repr__
-
-        #
-        if if_graphical:
-            results_per_line = max(results_per_line, 5)
-        else:
-            results_per_line = max(results_per_line, 7)
 
         step_wid = 2 if n_steps < 100 else 3
         step_iter = enumerate(self.steps)
-        i_step = -1
 
-        self._output_graphical(results_per_line, step_iter, step_wid)
+        if if_graphical:
+            results_per_line = min(results_per_line, 5)
+            self._output_graphical(results_per_line, step_iter, step_wid)
+        else:
+            results_per_line = min(results_per_line, 7)
+            self._output_moves(results_per_line, step_iter, step_wid)
+
+
         # for i, s in enumerate(self.steps):
         #     if i % results_per_line == 0:   # For every nth line (n == results_per_line)
         #         print('Step {0:{1}}'.format(i+1, step_wid), end = '')
