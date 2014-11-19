@@ -52,25 +52,37 @@ class HRSolution:
             line_start_i_step =  i_step + 1
             prompt_str = 'Step {0:{1}}'.format(line_start_i_step+1, step_wid)
             step_str_list = []
-            for i in range(results_per_line):   # Read n lines
+            for i in range(results_per_line):   # Read n steps
                 try:
                     i_step, this_step = next(step_iter)
                 except StopIteration:
                     break
-
-                step_str_list.append(str(this_step))
-            step_str = ' --> '.join(step_str_list)
-
+                self.init_board.dehash_board(this_step.hash_code)
+                step_str_list.append(self.init_board.get_board())     # append a board, e.g. ['1 0 0 2', '1 0 0 2', '3 5 5 4' ... ]
+            #print(step_str_list)
+            #print(list(zip(*step_str_list)))
+            step_str = []
+            for irow, row in enumerate(list(zip(*step_str_list))):
+                if irow != 2:
+                    step_str.append('       '.join(row))
+                else:
+                    step_str.append('  -->  '.join(row))
+            #print(step_str)
             if results_per_line > 1:     # If there should be more than one elem in each row
                 prompt_str += ' to {0:{1}}:\n  '.format(i_step+1, step_wid)
             else:
                 prompt_str += ':  '
 
             if i_step == n_steps - 1:   # If this happens to be the last step
-                print(prompt_str + step_str)
+                print(prompt_str)
+                for i in step_str:
+                    print(i)
                 break              # Then we are done
             else:
-                print(prompt_str + step_str + ' --> ')
+                print(prompt_str)
+                for i in step_str:
+                    print(i)
+            print()
 
     def output(self,  results_per_line = 4, if_graphical=False, dir_shorthand=False):
         print("\nSolution Report:")
@@ -91,7 +103,7 @@ class HRSolution:
         step_iter = enumerate(self.steps)
         i_step = -1
 
-        self._output_moves(results_per_line, step_iter, step_wid)
+        self._output_graphical(results_per_line, step_iter, step_wid)
         # for i, s in enumerate(self.steps):
         #     if i % results_per_line == 0:   # For every nth line (n == results_per_line)
         #         print('Step {0:{1}}'.format(i+1, step_wid), end = '')
