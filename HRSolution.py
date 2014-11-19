@@ -67,7 +67,9 @@ class HRSolution:
             step_str = []
             graphic_move_str = []
             for st in step_str_list:
-                step_str.append('{0:<{1}}'.format(st, BOARD_OUTPUT_WID))
+                #print(st)
+                #new_str = '{0:5}'.format(str(st))
+                step_str.append('{0:{1}}'.format(str(st), BOARD_OUTPUT_WID))
             #print(step_str)
             step_str = ''.join(step_str)
 
